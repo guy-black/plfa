@@ -77,10 +77,17 @@ Give another example of a pair of operators that have an identity
 and are associative, commutative, and distribute over one another.
 (You do not have to prove these properties.)
 
+```
+--do later
+```
+
 Give an example of an operator that has an identity and is
 associative but is not commutative.
 (You do not have to prove these properties.)
 
+```
+--do later
+```
 
 ## Associativity
 
@@ -164,6 +171,7 @@ known properties.  The inductive case tells us that if `P m` holds (on
 the day before today) then `P (suc m)` also holds (today).  We didn't
 know about any properties before today, so the inductive case doesn't
 apply:
+
 
     -- On the first day, one property is known.
     P zero

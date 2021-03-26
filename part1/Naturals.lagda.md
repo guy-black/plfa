@@ -1071,7 +1071,7 @@ them, and basic operators upon them, are defined in the standard
 library module `Data.Nat`:
 
 ```
--- import Data.Nat using (ℕ; zero; suc; _+_; _*_; _^_; _∸_)
+--import Data.Nat using (ℕ; zero; suc; _+_; _*_; _^_; _∸_)
 ```
 
 Normally, we will show an import as running code, so Agda will
