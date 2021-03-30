@@ -709,8 +709,101 @@ Write out what is known about associativity of addition on each of the
 first four days using a finite story of creation, as
 [earlier](/Naturals/#finite-creation).
 
+
 ```
--- Your code goes here
+firstDay : ∀ (n p : ℕ) → (0 + n) + p ≡ 0 + (n + p)
+firstDay zero p =
+  begin
+    (0 + zero) + p
+  ≡⟨⟩
+    zero + p
+  ≡⟨⟩
+    0 + (zero + p)
+  ∎
+firstDay (suc n) p =
+  begin
+    (0 +(suc n)) + p
+  ≡⟨⟩
+    (suc n) + p
+  ≡⟨⟩
+    0 + ((suc n) + p)
+  ∎
+
+secondDay : ∀ (n p : ℕ) → (1 + n) + p ≡ 1 + (n + p)
+secondDay zero p =
+  begin
+    (1 + zero) + p
+  ≡⟨⟩
+    (suc 0 + zero) + p
+  ≡⟨⟩
+    suc (0 + zero) + p
+  ≡⟨⟩
+    1 + p
+  ≡⟨⟩
+    1 + (zero + p)
+  ∎
+secondDay (suc n) p =
+  begin
+    (1 + (suc n)) + p
+  ≡⟨⟩
+    suc (suc n) + p
+  ≡⟨⟩
+    suc ((suc n) + p)
+  ≡⟨⟩
+    1 + ((suc n) + p)
+  ∎
+
+thirdDay : ∀ (n p : ℕ) → (2 + n) + p ≡ 2 + (n + p)
+thirdDay zero p =
+  begin
+     (2 + zero) + p
+   ≡⟨⟩
+     ((suc 1) + zero) + p
+   ≡⟨⟩
+     (suc (1 + zero)) + p
+   ≡⟨⟩
+     suc (1 + zero) + p
+   ≡⟨⟩
+     suc (((suc zero) + zero) + p)
+   ≡⟨⟩
+     suc ((suc (zero + zero)) + p)
+   ≡⟨⟩
+     suc ((suc zero)) + p
+   ≡⟨⟩
+     suc (suc zero) + p
+   ≡⟨⟩
+     suc 1 + p
+   ≡⟨⟩
+     2 + p
+   ≡⟨⟩
+     2 + (zero + p)
+  ∎
+thirdDay (suc n) p =
+  begin
+    (2 + (suc n)) + p
+   ≡⟨⟩
+    (suc 1) + (suc n) + p
+   ≡⟨⟩
+     2 + (suc n) + p
+   ≡⟨⟩
+     2 + (suc n + p)
+  ∎
+
+
+fourthDay : ∀ (n p : ℕ) → (3 + n) + p ≡ 3 + (n + p)
+fourthDay zero p =
+  begin
+    (3 + zero) + p
+  ≡⟨⟩
+    3 + (zero + p)
+  ∎
+fourthDay (suc n) p =
+  begin
+    (3 + (suc n)) + p
+  ≡⟨⟩
+    3 + ((suc n) + p)
+  ∎  
+
 ```
 
 ## Associativity with rewrite
@@ -777,8 +870,11 @@ It is instructive to see how to build the alternative proof of
 associativity using the interactive features of Agda in Emacs.
 Begin by typing:
 
-    +-assoc′ : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
-    +-assoc′ m n p = ?
+```
++-assoc′` : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
++-assoc′` zero n p = refl
++-assoc′` (suc m) n p rewrite +-assoc′` m n p = refl
+```
 
 The question mark indicates that you would like Agda to help with
 filling in that part of the code.  If you type `C-c C-l` (control-c
@@ -876,7 +972,10 @@ just apply the previous results which show addition
 is associative and commutative.
 
 ```
--- Your code goes here
+`+-swap` : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
+`+-swap` zero n p = refl
+`+-swap` (suc m) n p = {!!}
+
 ```
 
 
