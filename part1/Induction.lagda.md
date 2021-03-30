@@ -974,9 +974,17 @@ is associative and commutative.
 ```
 `+-swap` : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
 `+-swap` zero n p = refl
-`+-swap` (suc m) n p = {!!}
-
-```
+`+-swap` (suc m) n p =
+  begin
+    (suc m) + (n + p)
+  ≡⟨ sym (+-assoc′` (suc m) n p) ⟩
+    ((suc m) + n) + p
+  ≡⟨ +-comm′ n (suc m) ⟩
+    (n + (suc m)) + p
+  ≡⟨ +-assoc′` n (suc m) p ⟩
+    n + ((suc m) + p)
+  ∎
+```  
 
 
 #### Exercise `*-distrib-+` (recommended) {name=times-distrib-plus}
