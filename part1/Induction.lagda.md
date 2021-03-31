@@ -987,6 +987,7 @@ is associative and commutative.
 ```  
 
 
+
 #### Exercise `*-distrib-+` (recommended) {name=times-distrib-plus}
 
 Show multiplication distributes over addition, that is,
