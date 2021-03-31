@@ -33,6 +33,9 @@ and so on. We write `ℕ` for the *type* of natural numbers, and say that
 `0`, `1`, `2`, `3`, and so on are *values* of type `ℕ`, indicated by
 writing `0 : ℕ`, `1 : ℕ`, `2 : ℕ`, `3 : ℕ`, and so on.
 
+
+
+
 The set of natural numbers is infinite, yet we can write down
 its definition in just a few lines.  Here is the definition
 as a pair of inference rules:
