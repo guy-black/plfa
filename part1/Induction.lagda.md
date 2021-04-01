@@ -979,7 +979,7 @@ is associative and commutative.
     (suc m) + (n + p)
   ≡⟨ sym (+-assoc′` (suc m) n p) ⟩
     ((suc m) + n) + p
-  ≡⟨ +-comm′ n (suc m) ⟩
+  ≡⟨ cong (_+ p) (+-comm′ (suc m) n) ⟩
     (n + (suc m)) + p
   ≡⟨ +-assoc′` n (suc m) p ⟩
     n + ((suc m) + p)
