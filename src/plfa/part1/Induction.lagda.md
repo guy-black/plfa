@@ -77,10 +77,17 @@ Give another example of a pair of operators that have an identity
 and are associative, commutative, and distribute over one another.
 (You do not have to prove these properties.)
 
+```
+--do later
+```
+
 Give an example of an operator that has an identity and is
 associative but is not commutative.
 (You do not have to prove these properties.)
 
+```
+--do later
+```
 
 ## Associativity
 
@@ -164,6 +171,7 @@ known properties.  The inductive case tells us that if `P m` holds (on
 the day before today) then `P (suc m)` also holds (today).  We didn't
 know about any properties before today, so the inductive case doesn't
 apply:
+
 
     -- On the first day, one property is known.
     P zero
@@ -290,7 +298,7 @@ hypothesis:
 Reading the chain of equations in the inductive case of the proof, the
 top and bottom of the chain match the two sides of the equation to be
 shown, and reading down from the top and up from the bottom takes us
-to the simplified equation above. The remaining equation does not follow
+to the simplified equation above. The remaining equation, does not follow
 from simplification alone, so we use an additional operator for chain
 reasoning, `_≡⟨_⟩_`, where a justification for the equation appears
 within angle brackets.  The justification given is:
@@ -701,8 +709,101 @@ Write out what is known about associativity of addition on each of the
 first four days using a finite story of creation, as
 [earlier](/Naturals/#finite-creation).
 
+
 ```
--- Your code goes here
+firstDay : ∀ (n p : ℕ) → (0 + n) + p ≡ 0 + (n + p)
+firstDay zero p =
+  begin
+    (0 + zero) + p
+  ≡⟨⟩
+    zero + p
+  ≡⟨⟩
+    0 + (zero + p)
+  ∎
+firstDay (suc n) p =
+  begin
+    (0 +(suc n)) + p
+  ≡⟨⟩
+    (suc n) + p
+  ≡⟨⟩
+    0 + ((suc n) + p)
+  ∎
+
+secondDay : ∀ (n p : ℕ) → (1 + n) + p ≡ 1 + (n + p)
+secondDay zero p =
+  begin
+    (1 + zero) + p
+  ≡⟨⟩
+    (suc 0 + zero) + p
+  ≡⟨⟩
+    suc (0 + zero) + p
+  ≡⟨⟩
+    1 + p
+  ≡⟨⟩
+    1 + (zero + p)
+  ∎
+secondDay (suc n) p =
+  begin
+    (1 + (suc n)) + p
+  ≡⟨⟩
+    suc (suc n) + p
+  ≡⟨⟩
+    suc ((suc n) + p)
+  ≡⟨⟩
+    1 + ((suc n) + p)
+  ∎
+
+thirdDay : ∀ (n p : ℕ) → (2 + n) + p ≡ 2 + (n + p)
+thirdDay zero p =
+  begin
+     (2 + zero) + p
+   ≡⟨⟩
+     ((suc 1) + zero) + p
+   ≡⟨⟩
+     (suc (1 + zero)) + p
+   ≡⟨⟩
+     suc (1 + zero) + p
+   ≡⟨⟩
+     suc (((suc zero) + zero) + p)
+   ≡⟨⟩
+     suc ((suc (zero + zero)) + p)
+   ≡⟨⟩
+     suc ((suc zero)) + p
+   ≡⟨⟩
+     suc (suc zero) + p
+   ≡⟨⟩
+     suc 1 + p
+   ≡⟨⟩
+     2 + p
+   ≡⟨⟩
+     2 + (zero + p)
+  ∎
+thirdDay (suc n) p =
+  begin
+    (2 + (suc n)) + p
+   ≡⟨⟩
+    (suc 1) + (suc n) + p
+   ≡⟨⟩
+     2 + (suc n) + p
+   ≡⟨⟩
+     2 + (suc n + p)
+  ∎
+
+
+fourthDay : ∀ (n p : ℕ) → (3 + n) + p ≡ 3 + (n + p)
+fourthDay zero p =
+  begin
+    (3 + zero) + p
+  ≡⟨⟩
+    3 + (zero + p)
+  ∎
+fourthDay (suc n) p =
+  begin
+    (3 + (suc n)) + p
+  ≡⟨⟩
+    3 + ((suc n) + p)
+  ∎  
+
 ```
 
 ## Associativity with rewrite
@@ -769,8 +870,11 @@ It is instructive to see how to build the alternative proof of
 associativity using the interactive features of Agda in Emacs.
 Begin by typing:
 
-    +-assoc′ : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
-    +-assoc′ m n p = ?
+```
++-assoc′` : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
++-assoc′` zero n p = refl
++-assoc′` (suc m) n p rewrite +-assoc′` m n p = refl
+```
 
 The question mark indicates that you would like Agda to help with
 filling in that part of the code.  If you type `C-c C-l` (control-c
@@ -868,8 +972,20 @@ just apply the previous results which show addition
 is associative and commutative.
 
 ```
--- Your code goes here
-```
+`+-swap` : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
+`+-swap` zero n p = refl
+`+-swap` (suc m) n p =
+  begin
+    (suc m) + (n + p)
+  ≡⟨ sym (+-assoc′` (suc m) n p) ⟩
+    ((suc m) + n) + p
+  ≡⟨ cong (_+ p) (+-comm′ (suc m) n) ⟩
+    (n + (suc m)) + p
+  ≡⟨ +-assoc′` n (suc m) p ⟩
+    n + ((suc m) + p)
+  ∎
+```  
+
 
 
 #### Exercise `*-distrib-+` (recommended) {name=times-distrib-plus}
@@ -881,8 +997,21 @@ Show multiplication distributes over addition, that is,
 for all naturals `m`, `n`, and `p`.
 
 ```
--- Your code goes here
-```
+distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+distrib zero n p = refl
+distrib (suc m) n p =
+  begin
+    ((suc m) + n) * p
+  ≡⟨⟩
+    suc (m + n) * p
+  ≡⟨⟩
+    p + ((m + n) * p)
+  ≡⟨⟩
+    p + (m + n) * p
+  ≡⟨⟩
+    {!!}
+```    
+
 
 
 #### Exercise `*-assoc` (recommended) {name=times-assoc}
@@ -893,9 +1022,15 @@ Show multiplication is associative, that is,
 
 for all naturals `m`, `n`, and `p`.
 
-```
--- Your code goes here
-```
+
+*-assoc : ∀ (m n p : ℕ) → (m * n) * p ≡ m * (n * p)
+*-assoc zero n p = refl
+*-assoc (suc m) n p =
+  begin
+    ((suc m) * n) * p
+  ≡⟨⟩
+    {!!}
+
 
 
 #### Exercise `*-comm` (practice) {name=times-comm}
@@ -907,9 +1042,15 @@ Show multiplication is commutative, that is,
 for all naturals `m` and `n`.  As with commutativity of addition,
 you will need to formulate and prove suitable lemmas.
 
-```
--- Your code goes here
-```
+
+*-comm : ∀ (m n : ℕ) → m * n ≡ m * n
+*-comm zero n = refl
+*-comm (suc m) n =
+  begin
+    (suc m) * n
+  ≡⟨⟩
+    {!!}
+
 
 
 #### Exercise `0∸n≡0` (practice) {name=zero-monus}

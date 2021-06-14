@@ -33,6 +33,9 @@ and so on. We write `ℕ` for the *type* of natural numbers, and say that
 `0`, `1`, `2`, `3`, and so on are *values* of type `ℕ`, indicated by
 writing `0 : ℕ`, `1 : ℕ`, `2 : ℕ`, `3 : ℕ`, and so on.
 
+
+
+
 The set of natural numbers is infinite, yet we can write down
 its definition in just a few lines.  Here is the definition
 as a pair of inference rules:
@@ -81,7 +84,8 @@ successor of two; and so on.
 Write out `7` in longhand.
 
 ```
--- Your code goes here
+_ =
+  suc (suc (suc (suc (suc (suc (suc zero))))))
 ```
 
 
@@ -301,6 +305,7 @@ instances of addition and multiplication can be specified in
 just a couple of lines.
 
 Here is the definition of addition in Agda:
+
 ```
 _+_ : ℕ → ℕ → ℕ
 zero + n = n
@@ -371,7 +376,11 @@ _ =
   begin
     2 + 3
   ≡⟨⟩
+    (suc 1) + 3
+  ≡⟨⟩
     suc (1 + 3)
+  ≡⟨⟩
+    suc (suc 0 + 3)
   ≡⟨⟩
     suc (suc (0 + 3))
   ≡⟨⟩
@@ -430,7 +439,27 @@ other word for evidence, which we will use interchangeably, is _proof_.
 Compute `3 + 4`, writing out your reasoning as a chain of equations, using the equations for `+`.
 
 ```
--- Your code goes here
+_ : 3 + 4 ≡ 7
+_ =
+  begin
+    3 + 4
+   ≡⟨⟩
+    (suc 2) + 4
+   ≡⟨⟩
+     suc (suc 1) + 4
+   ≡⟨⟩
+     suc (suc (suc 0)) + 4
+   ≡⟨⟩
+     suc (suc (suc 0 + 4 ))
+   ≡⟨⟩
+     suc (suc (suc 4))
+   ≡⟨⟩
+     suc (suc 5)
+   ≡⟨⟩
+     suc 6
+   ≡⟨⟩
+     7
+   ∎
 ```
 
 
@@ -492,7 +521,26 @@ Compute `3 * 4`, writing out your reasoning as a chain of equations, using the e
 (You do not need to step through the evaluation of `+`.)
 
 ```
--- Your code goes here
+_ =
+  begin
+    3 * 4
+   ≡⟨⟩
+    (suc 2) * 4
+   ≡⟨⟩
+    4 + (2 * 4)
+   ≡⟨⟩
+    4 + ((suc 1) * 4)
+   ≡⟨⟩
+    4 + 4 + (1 * 4)
+   ≡⟨⟩
+    4 + 4 + ((suc 0) * 4)
+   ≡⟨⟩
+    4 + 4 + 4 + (0 * 4)
+   ≡⟨⟩
+    4 + 4 + 4 + 0
+   ≡⟨⟩
+    12
+   ∎
 ```
 
 
@@ -506,7 +554,9 @@ Define exponentiation, which is given by the following equations:
 Check that `3 ^ 4` is `81`.
 
 ```
--- Your code goes here
+_^_ : ℕ → ℕ → ℕ
+m ^ 0 = 1
+m ^ (suc n) = m * (m ^ n)
 ```
 
 
@@ -571,7 +621,33 @@ _ =
 Compute `5 ∸ 3` and `3 ∸ 5`, writing out your reasoning as a chain of equations.
 
 ```
--- Your code goes here
+_ =
+  begin
+    5 ∸ 3
+  ≡⟨⟩
+    4 ∸ 2
+  ≡⟨⟩
+    3 ∸ 1
+  ≡⟨⟩
+    2 ∸ 0
+  ≡⟨⟩
+    2
+  ∎
+```
+```
+_ =
+  begin
+    3 ∸ 5
+  ≡⟨⟩
+    2 ∸ 4
+  ≡⟨⟩
+    1 ∸ 3
+  ≡⟨⟩
+    0 ∸ 2
+  ≡⟨⟩
+    0
+  ∎
+
 ```
 
 
@@ -618,7 +694,7 @@ and
 `_+_ 2 3` stands for `(_+_ 2) 3`.
 
 The term `_+_ 2` by itself stands for the function that adds two to
-its argument, hence applying it to three yields five.
+clits argument, hence applying it to three yields five.
 
 Currying is named for Haskell Curry, after whom the programming
 language Haskell is also named.  Curry's work dates to the 1930's.
@@ -761,6 +837,10 @@ Begin by typing:
 
     _+_ : ℕ → ℕ → ℕ
     m + n = ?
+
+
+
+
 
 The question mark indicates that you would like Agda to help with
 filling in that part of the code. If you type `C-c C-l` (pressing
@@ -907,6 +987,29 @@ number.  For example, since `1100` encodes twelve, we should have:
 Confirm that this gives the correct answer for the bitstrings
 encoding zero through four.
 
+```
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (x O) = (x I)
+inc (x I) = ((inc x) O)
+
+incExample0 : inc (⟨⟩ O) ≡ (⟨⟩ I)
+incExample0 = refl
+
+incExample1 : inc(⟨⟩ I) ≡ (⟨⟩ I O)
+incExample1 = refl
+
+incExample2 : inc (⟨⟩ I O) ≡ (⟨⟩ I I)
+incExample2 = refl
+
+incExample3 : inc (⟨⟩ I I) ≡ (⟨⟩ I O O )
+incExample3 = refl
+
+incExample4 : inc (⟨⟩ I O I) ≡ (⟨⟩ I I O)
+incExample4 = refl
+
+```
+
 Using the above, define a pair of functions to convert
 between the two representations.
 
@@ -918,7 +1021,48 @@ represents a positive natural, and represent zero by `⟨⟩ O`.
 Confirm that these both give the correct answer for zero through four.
 
 ```
--- Your code goes here
+to : ℕ → Bin
+to zero = ⟨⟩ O
+to (suc m) = inc (to m)
+
+toExample0 : to zero ≡ (⟨⟩ O)
+toExample0 = refl
+
+toExample1 : to 1 ≡ (⟨⟩ I)
+toExample1 = refl
+
+toExample2 : to 2 ≡ (⟨⟩ I O)
+toExample2 = refl
+
+toExample3 : to 3 ≡ (⟨⟩ I I)
+toExample3 = refl
+
+toExample4 : to 4 ≡ (⟨⟩ I O O)
+toExample4 = refl
+
+```
+```
+
+from : Bin → ℕ
+from ⟨⟩ = 0
+from (x I) = suc ((from x) * 2) 
+from (x O) = (from x) * 2
+
+fromTest0 : from (⟨⟩ O) ≡ 0
+fromTest0 = refl
+
+fromTest1 : from (⟨⟩ I) ≡ 1
+fromTest1 = refl
+
+fromTest2 : from (⟨⟩ I O) ≡ 2
+fromTest2 = refl
+
+fromTest3 : from (⟨⟩ I I) ≡ 3
+fromTest3 = refl
+
+fromTest4 : from (⟨⟩ I O O) ≡ 4
+fromTest4 = refl
+
 ```
 
 
@@ -930,13 +1074,14 @@ them, and basic operators upon them, are defined in the standard
 library module `Data.Nat`:
 
 ```
--- import Data.Nat using (ℕ; zero; suc; _+_; _*_; _^_; _∸_)
+--import Data.Nat using (ℕ; zero; suc; _+_; _*_; _^_; _∸_)
 ```
 
 Normally, we will show an import as running code, so Agda will
 complain if we attempt to import a definition that is not available.
 This time, however, we have only shown the import as a comment.  Both
 this chapter and the standard library invoke the `NATURAL` pragma, the
+
 former on `ℕ`, and the latter on the equivalent type `Data.Nat.ℕ`.
 Such a pragma can only be invoked once, as invoking it twice would
 raise confusion as to whether `2` is a value of type `ℕ` or type
